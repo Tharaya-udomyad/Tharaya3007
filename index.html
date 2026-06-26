@@ -1,0 +1,992 @@
+python - <<'PY'
+content = '''<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio | ธาราญา อุดมญาติ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Sarabun:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --cream: #FDF6EC;
+            --terracotta: #C8714A;
+            --rosewood: #D4A5A5;
+            --cocoa: #7A5C4F;
+            --warm-white: #FFFBF5;
+            --text: #4B342E;
+            --soft: rgba(122,92,79,0.12);
+            --radius: 20px;
+            --transition: 0.3s ease;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Sarabun', sans-serif;
+            background: var(--warm-white);
+            color: var(--text);
+            line-height: 1.8;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at top left, rgba(200,150,120,0.12), transparent 25%),
+                        radial-gradient(circle at bottom right, rgba(216,165,150,0.14), transparent 28%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .page-container {
+            width: min(1200px, 100%);
+            margin: 0 auto;
+            padding: 0 20px 60px;
+        }
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: rgba(253,246,236,0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(122,92,79,0.1);
+        }
+
+        .nav-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+            padding: 18px 0;
+        }
+
+        .brand {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.35rem;
+            letter-spacing: 0.08em;
+            color: var(--cocoa);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 22px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            position: relative;
+            padding: 6px 0;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -4px;
+            width: 0;
+            height: 2px;
+            background: var(--terracotta);
+            transition: width var(--transition);
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .hero {
+            position: relative;
+            margin: 40px 0 60px;
+            padding: 40px 28px 36px;
+            background: linear-gradient(180deg, rgba(253,246,236,0.95) 0%, rgba(255,251,245,0.92) 100%);
+            border-radius: var(--radius);
+            box-shadow: 0 4px 24px rgba(122,92,79,0.12);
+            overflow: hidden;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(circle, rgba(255,255,255,0.18) 1px, transparent 1px);
+            background-size: 24px 24px;
+            opacity: 0.42;
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            display: grid;
+            grid-template-columns: 220px 1fr;
+            gap: 32px;
+            align-items: center;
+        }
+
+        .hero-image {
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 6px solid rgba(200,140,110,0.16);
+            box-shadow: 0 16px 24px rgba(122,92,79,0.12);
+            background: var(--terracotta);
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-intro {
+            position: relative;
+        }
+
+        .hero-title {
+            margin: 0 0 14px;
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 3vw, 3.4rem);
+            line-height: 1.05;
+            color: var(--cocoa);
+        }
+
+        .hero-subtitle {
+            margin: 0 0 18px;
+            font-size: 1.05rem;
+            color: #6f4e41;
+            font-weight: 500;
+        }
+
+        .hero-text {
+            margin: 0 0 28px;
+            max-width: 620px;
+            color: #5e4235;
+            font-size: 1rem;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .button,
+        .button-alt {
+            border: none;
+            border-radius: 999px;
+            padding: 14px 24px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform var(--transition), background-color var(--transition), box-shadow var(--transition);
+        }
+
+        .button {
+            background: var(--terracotta);
+            color: #fff;
+        }
+
+        .button:hover {
+            background: #9b593f;
+            transform: translateY(-1px);
+        }
+
+        .button-alt {
+            background: rgba(216,165,165,0.18);
+            color: var(--cocoa);
+        }
+
+        .button-alt:hover {
+            background: rgba(216,165,165,0.3);
+            transform: translateY(-1px);
+        }
+
+        section {
+            margin-bottom: 56px;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: var(--cocoa);
+        }
+
+        .section-title span {
+            display: inline-block;
+            width: 44px;
+            height: 2px;
+            background: var(--terracotta);
+        }
+
+        .about-grid,
+        .skills-grid,
+        .projects-grid,
+        .contact-grid {
+            display: grid;
+            gap: 28px;
+        }
+
+        .about-grid {
+            grid-template-columns: 1fr 1.2fr;
+            align-items: center;
+        }
+
+        .about-card,
+        .skill-card,
+        .project-card,
+        .contact-card,
+        .education-card {
+            background: var(--warm-white);
+            border-radius: var(--radius);
+            box-shadow: 0 4px 24px rgba(122,92,79,0.12);
+            padding: 26px;
+        }
+
+        .about-image {
+            width: 100%;
+            min-height: 300px;
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+
+        .about-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .image {
+            width: 250px;       /* กำหนดขนาดที่ต้องการ */
+        }
+
+        .image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 8px;
+        }
+        .about-description p {
+            margin: 0 0 8px;
+        }
+        .image-group {
+        display: flex;
+        gap: 1px;          /* ระยะห่างระหว่างรูป */
+        }
+
+        .image-group .image {
+    flex: 1;            /* แบ่งพื้นที่เท่าๆกัน */
+        }
+
+        .image-group .image img {
+        width: 300px;
+        height: 300px;
+        object-fit: cover;
+        display: block;
+        border-radius: 4px;
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .stat {
+            background: rgba(200,140,110,0.1);
+            border-radius: 16px;
+            padding: 18px 16px;
+            text-align: center;
+        }
+
+        .stat strong {
+            display: block;
+            font-size: 1.6rem;
+            color: var(--terracotta);
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 32px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 16px;
+            top: 0;
+            width: 4px;
+            height: 100%;
+            background: rgba(200,140,110,0.25);
+            border-radius: 999px;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding: 20px 20px 20px 34px;
+            margin-bottom: 20px;
+            background: rgba(253,246,236,0.85);
+            border-radius: 18px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -4px;
+            top: 28px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--terracotta);
+            border: 4px solid var(--warm-white);
+        }
+
+        .timeline-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .timeline-title svg {
+            width: 22px;
+            height: 22px;
+            color: var(--terracotta);
+            flex-shrink: 0;
+        }
+
+        .timeline-meta {
+            color: #6f4e41;
+            font-size: 0.98rem;
+            margin-bottom: 12px;
+        }
+
+        .timeline-detail {
+            margin: 0;
+            color: #5e4235;
+        }
+
+        .skill-group {
+            display: grid;
+            gap: 22px;
+        }
+
+        .skill-group h3 {
+            margin: 0 0 14px;
+            font-size: 1.05rem;
+            color: var(--cocoa);
+        }
+
+        .skill-tags,
+        .tool-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .skill-pill {
+            padding: 10px 16px;
+            border-radius: 999px;
+            font-weight: 500;
+            background: var(--terracotta);
+            color: #fff;
+        }
+
+        .tool-pill {
+            padding: 10px 16px;
+            border-radius: 999px;
+            font-weight: 500;
+            background: rgba(216,165,165,0.22);
+            color: var(--cocoa);
+        }
+
+        .soft-skills {
+            display: grid;
+            gap: 18px;
+        }
+
+        .skill-card {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 18px;
+        }
+
+        .skill-icon {
+            width: 58px;
+            height: 58px;
+            border-radius: 18px;
+            background: rgba(200,140,110,0.15);
+            display: grid;
+            place-items: center;
+            color: var(--terracotta);
+            flex-shrink: 0;
+        }
+
+        .skill-card p {
+            margin: 0;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .projects-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .project-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 18px;
+        }
+
+        .project-title {
+            margin: 0 0 8px;
+            font-size: 1.15rem;
+            color: var(--cocoa);
+        }
+
+        .project-description {
+            margin: 0;
+            color: #5e4235;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 0;
+        }
+
+        .project-tag {
+            background: rgba(200,140,110,0.14);
+            color: var(--cocoa);
+            border-radius: 999px;
+            padding: 8px 12px;
+            font-size: 0.92rem;
+        }
+
+        .project-card button {
+            align-self: start;
+            border: none;
+            border-radius: 999px;
+            padding: 12px 18px;
+            background: var(--rosewood);
+            color: #fff;
+            cursor: pointer;
+            transition: transform var(--transition), background-color var(--transition);
+        }
+
+        .project-card button:hover {
+            background: #b7827f;
+            transform: translateY(-1px);
+        }
+
+        .project-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 28px rgba(122,92,79,0.16);
+        }
+
+        .contact-wrapper {
+            display: grid;
+            gap: 28px;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .contact-card {
+            display: grid;
+            gap: 18px;
+        }
+
+        .contact-info {
+            display: grid;
+            gap: 14px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            color: #5e4235;
+        }
+
+        .contact-item svg {
+            width: 20px;
+            height: 20px;
+            color: var(--terracotta);
+            flex-shrink: 0;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            width: 44px;
+            height: 44px;
+            border-radius: 14px;
+            display: grid;
+            place-items: center;
+            background: rgba(216,165,165,0.18);
+            color: var(--cocoa);
+            transition: background-color var(--transition), transform var(--transition);
+            text-decoration: none;
+        }
+
+        .social-link:hover {
+            background: rgba(200,140,110,0.26);
+            transform: translateY(-1px);
+        }
+
+        .contact-form {
+            display: grid;
+            gap: 18px;
+        }
+
+        .contact-form label {
+            display: grid;
+            gap: 8px;
+            font-weight: 500;
+            color: #5e4235;
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            border: 1px solid rgba(122,92,79,0.18);
+            border-radius: 16px;
+            padding: 14px 16px;
+            font-family: inherit;
+            font-size: 1rem;
+            color: var(--text);
+            background: #fff;
+        }
+
+        .contact-form textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .contact-form button {
+            border: none;
+            border-radius: 999px;
+            background: var(--terracotta);
+            color: #fff;
+            padding: 14px 22px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color var(--transition), transform var(--transition);
+            width: fit-content;
+        }
+
+        .contact-form button:hover {
+            background: #9b593f;
+            transform: translateY(-1px);
+        }
+
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            padding: 22px 0 10px;
+            color: #6f4e41;
+            font-size: 0.95rem;
+            border-top: 1px solid rgba(122,92,79,0.1);
+        }
+
+        .top-button {
+            border: none;
+            border-radius: 999px;
+            background: rgba(216,165,165,0.22);
+            color: var(--cocoa);
+            padding: 10px 18px;
+            cursor: pointer;
+            transition: background-color var(--transition), transform var(--transition);
+        }
+
+        .top-button:hover {
+            background: rgba(200,140,110,0.32);
+            transform: translateY(-1px);
+        }
+
+        .fade-up {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 920px) {
+            .hero-content,
+            .about-grid,
+            .contact-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-links {
+                justify-content: center;
+            }
+
+            .hero {
+                padding: 30px 22px 32px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                margin-top: 20px;
+            }
+
+            .nav-inner {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .nav-links {
+                gap: 14px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline {
+                padding-left: 0;
+            }
+
+            .timeline::before {
+                left: 8px;
+            }
+
+            .timeline-item {
+                padding-left: 24px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-container {
+                padding: 0 16px 40px;
+            }
+
+            .hero-title {
+                font-size: 2.3rem;
+            }
+
+            .nav-links {
+                gap: 10px;
+            }
+
+            .button,
+            .button-alt {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .footer {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            @media (max-width: 250px) {
+            .image-group {
+            flex-direction: column;
+            }
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="page-container nav-inner">
+            <div class="brand">SJ Portfolio</div>
+            <nav class="nav-links" aria-label="เมนูหลัก">
+                <a href="#about">เกี่ยวกับฉัน</a>
+                <a href="#education">การศึกษา</a>
+                <a href="#skills">ทักษะ</a>
+                <a href="#projects">ผลงาน</a>
+                <a href="#contact">ติดต่อ</a>
+            </nav>
+        </div>
+    </div>
+
+    <main class="page-container">
+        <section class="hero fade-up" id="home">
+            <div class="hero-content">
+                <div class="hero-image">
+                    <img src="me.jpg" alt="รูปโปรไฟล์">
+                </div>
+                <div class="hero-intro">
+                    <h1 class="hero-title">ธาราญา อุดมญาติ | Tharaya Udomyat</h1>
+                    <p class="hero-text">นักออกแบบภาพและช่างภาพ — มองโลกผ่านเลนส์ จัดวางผ่านพิกเซลมุ่งมั่นสร้างหน้าประสบการณ์ผู้ใช้ที่ดูอบอุ่น และน่าจดจำ ด้วยงานออกแบบที่สะอาดและใช้งานง่าย </p>
+                    <div class="hero-actions">
+                        <a class="button" href="#contact">ดาวน์โหลด CV</a>
+                        <a class="button-alt" href="#contact">ติดต่อฉัน</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="fade-up" id="about">
+            <div class="section-title"><span></span>เกี่ยวกับฉัน</div>
+            <div class="about-grid">
+                <div class="about-image">
+                    <img src="camera.png" alt="รูปภาพเกี่ยวกับฉัน">
+                </div>
+                <div class="about-description">
+                    <p>สวัสดีค่ะ ธาราญาเป็นนักศึกษาคณะเทคโนโลยีคอมพิวเตอร์ที่หลงใหลในเส้นแบ่งระหว่างศิลปะกับเทคโนโลยี
+              ทุกงานออกแบบเริ่มจากคำถามเดียวกันเสมอ คือ ภาพนี้กำลังเล่าเรื่องอะไร และจะสื่อสารเรื่องนั้นให้ชัดที่สุดได้อย่างไร
+              ตั้งแต่การจัดองค์ประกอบหน้ากล้องไปจนถึงการจัดวางพิกเซลบนหน้าจอ
+            </p></p>
+                    <p> ตลอดสามปีที่ผ่านมา ได้ฝึกฝนทั้งงานถ่ายภาพ ออกแบบกราฟิก และตัดต่อวิดีโอควบคู่ไปกับการเรียนด้านเทคโนโลยีคอมพิวเตอร์
+              ทำให้มองงานสร้างสรรค์ด้วยมุมมองที่เป็นระบบ ใส่ใจรายละเอียดทุกเฟรม และพร้อมเปิดรับโอกาสใหม่ ๆ
+              ในการทำงานร่วมกับทีมที่เชื่อในพลังของภาพเล่าเรื่อง</p>
+
+                </div>
+            </div>
+        </section>
+
+        <section class="fade-up" id="education">
+            <div class="section-title"><span></span>ประวัติการศึกษา</div>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-title">
+                        <div>วิทยาลัยเทคนิคอุบลราชธานี</div>
+                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M4 9L12 4L20 9V15C20 16.1 19.1 17 18 17H15V20H9V17H6C4.9 17 4 16.1 4 15V9Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div class="timeline-meta">ปวส. สาขาคอมพิวเตอร์โปรแกรมเมอร์ • 2026 - ปัจจุบัน</div>
+                    <p class="timeline-detail">ได้เรียนรู้การพัฒนาเว็บ พร้อมฝึกฝนการจัดการโปรเจกต์และการทำงานร่วมกับทีม</p>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-title">
+                        <div>โรงเรียนมัธยมวานรนิวาส</div>
+                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M4 9L12 4L20 9V15C20 16.1 19.1 17 18 17H15V20H9V17H6C4.9 17 4 16.1 4 15V9Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div class="timeline-meta">มัธยมศึกษาตอนปลาย วิทย์-คณิต • 2020 - 2023 • เกรดเฉลี่ย 3.56</div>
+                    <p class="timeline-detail">สร้างพื้นฐานการคิดวิเคราะห์และแก้ปัญหา ซึ่งช่วยให้ผมสามารถวางโครงสร้างเว็บและออกแบบส่วนติดต่อได้อย่างมีเหตุผล</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="fade-up" id="skills">
+            <div class="section-title"><span></span>ทักษะ</div>
+            <div class="skills-grid">
+                <div class="skill-group">
+                    <h3>ทักษะด้านเทคนิค</h3>
+                    <div class="skill-tags">
+                        <span class="skill-pill">canva</span>
+                        <span class="skill-pill">ตัดต่อคลิป</span>
+                        <span class="skill-pill">ออกแบบโปสเตอร์</span>
+                        <span class="skill-pill">html</span>
+                    </div>
+                </div>
+                <div class="skill-group soft-skills">
+                    <h3>ทักษะด้าน Soft Skills</h3>
+                    <div class="skill-card">
+                        <div class="skill-icon">🤝</div>
+                        <p>รับฟังและวิเคราะห์ความต้องการของลูกค้าได้ดี</p>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-icon">🧠</div>
+                        <p>แก้ปัญหาเชิงสร้างสรรค์</p>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-icon">📌</div>
+                        <p>วางแผนงานอย่างมีระบบ</p>
+                    </div>
+                </div>
+                <div class="skill-group">
+                    <h3>เครื่องมือที่ใช้</h3>
+                    <div class="tool-tags">
+                        <span class="tool-pill">VS Code</span>
+                        <span class="tool-pill">Canva</span>
+                        <span class="tool-pill">Lightroom</span>
+                        <span class="tool-pill">capcut</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="fade-up" id="projects">
+            <div class="section-title"><span></span>ผลงาน / ประสบการณ์</div>
+                </article>
+                <article class="project-card">
+                <div class="image">
+                    <img src="จ้าวแดงอุบล.png" alt="รูปภาพผลงาน" width="100" height="150">
+                        </div>
+                    <div>
+                        <h3 class="project-title">โปสเตอร์</h3>
+                        <p class="project-description">สร้างโปสเตอร์ประชาสัมพันธ์ตามความต้องการของลูกค้าเพื่อนำไปใช้ในธุรกิจส่วนตัว</p>
+                        <div class="project-tags">
+                            <span class="project-tag">canva</span>
+                            <span class="project-tag">Lightroom</span>
+                            <span class="project-tag">drive</span>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="image-group">
+                     <div class="image">
+                     <img src="peple.jpg" alt="รูปภาพผลงาน">
+                    </div>
+                         <div class="image">
+                        <img src="brid.jpg" alt="รูปภาพผลงาน">
+                                </div>
+                            </div>
+                        <div>
+                                <h3 class="project-title">ภาพบุคคล</h3>
+                             <p class="project-description">ถ่ายภาพโปรไฟล์ส่วนตัวเพื่อนำไปใช้ในด้านต่างๆ</p>
+                                <div class="project-tags">
+                                 <span class="project-tag">Lightroom</span>
+                                 <span class="project-tag">camera</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="image">
+                    <img src="water.jpg" alt="รูปภาพผลงาน">
+                        </div>
+                    <div>
+                        <h3 class="project-title">ตัดต่อวิดิโอ</h3>
+                        <p class="project-description">ตัดต่อวีดิโอธรรมชาติ การเดินทาง การท่องเที่ยว เพื่อนำไปลงในโซเชียลมีเดีย</p>
+                        <div class="project-tags">
+                            <span class="project-tag">canva</span>
+                            <span class="project-tag">capcut</span>
+                            <span class="project-tag">Lightroom</span>
+
+                            </div>
+                        </div>
+                    <button type="button">ดูเพิ่มเติม</button>
+                </article>
+            </div>
+        </section>
+
+        <section class="fade-up" id="contact">
+            <div class="section-title"><span></span>พร้อมร่วมงานด้วยกัน</div>
+            <div class="contact-wrapper">
+                <div class="contact-card">
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M2 7C2 5.9 2.9 5 4 5H20C21.1 5 22 5.9 22 7V17C22 18.1 21.1 19 20 19H4C2.9 19 2 18.1 2 17V7Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M22 7L12 13L2 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            <span>thara.007@ggg.com</span>
+                        </div>
+                        <div class="contact-item">
+                            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M22 16.92V21C22 21.55 21.55 22 21 22C10.5 22 2 13.5 2 3C2 2.45 2.45 2 3 2H7.08C7.55 2 7.98 2.2 8.26 2.55L10.7 5.54C10.94 5.85 11.01 6.25 10.88 6.62L9.27 10.37C9.16 10.69 9.25 11.05 9.49 11.29L12.11 13.92C12.35 14.16 12.71 14.25 13.03 14.14L16.78 12.53C17.15 12.4 17.55 12.47 17.86 12.71L20.85 15.15C21.2 15.43 21.4 15.86 21.4 16.33V16.92C21.4 17.52 21.14 18.09 20.71 18.52C20.28 18.95 19.71 19.21 19.11 19.21H18.05C17.44 19.21 16.88 18.96 16.45 18.53L14.12 16.2C13.82 15.89 13.6 15.52 13.47 15.11L12.5 11.79C12.4 11.48 12.21 11.21 11.94 11.01L9.14 9.06C8.86 8.86 8.52 8.78 8.21 8.86L4.92 9.7C4.49 9.82 4.07 9.48 4.01 9.04C3.76 7.16 4.53 5.35 6.07 3.91C7.61 2.47 9.68 1.69 11.8 1.93C12.28 1.98 12.64 2.38 12.75 2.77L13.58 6.07C13.67 6.38 13.57 6.74 13.34 6.98L11.38 9.74C11.18 9.99 11.09 10.29 11.12 10.59L11.33 13.86C11.39 14.59 11.68 15.26 12.14 15.78L14.12 17.84C14.51 18.24 14.95 18.6 15.42 18.91L18.74 20.9C19.21 21.2 19.72 21.4 20.25 21.49V19.11C20.25 18.5 20.55 17.93 21.1 17.6L22 16.92Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            <span>061-000-0000</span>
+                        </div>
+                        <div class="contact-item">
+                            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M4 4H20V20H4V4Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M8 8H16V16H8V8Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 8V16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                            <span>linkedin.com/in/tharaya.udomyat</span>
+                        </div>
+                        <div class="contact-item">
+                            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12C2 16.19 5.16 19.71 9.25 20.71V23L12.24 21.5C12.74 21.56 13.26 21.58 13.77 21.58C18.52 21.58 22 18.09 22 13.36C22 8.63 18.52 5.14 13.77 5.14H13.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 9.5H14.5M9.5 12.5H14.5M9.5 15.5H12.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                            <span>github.com/tharaya.udomyat</span>
+                        </div>
+                    </div>
+                    <div class="social-links">
+                        <a class="social-link" href="#" aria-label="LinkedIn">
+                            <svg viewBox="0 0 24 24" fill="none" width="20" height="20" xmlns="http://www.w3.org/2000/svg"><path d="M16 8C17.6569 8 19 9.34315 19 11V19H15V11C15 10.4477 14.5523 10 14 10H13C12.4477 10 12 10.4477 12 11V19H8V8H10V9.31C10.67 8.53 11.64 8 12.75 8H16Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 9H2V19H6V9Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 4C5.10457 4 6 4.89543 6 6C6 7.10457 5.10457 8 4 8C2.89543 8 2 7.10457 2 6C2 4.89543 2.89543 4 4 4Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </a>
+                        <a class="social-link" href="#" aria-label="GitHub">
+                            <svg viewBox="0 0 24 24" fill="none" width="20" height="20" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C7.02944 2 3 6.02944 3 11C3 14.789 5.23997 18.0798 8.49994 19.5199C8.99996 19.6597 9.10995 19.3193 9.10995 19.0299C9.10995 18.7698 9.10084 18.1041 9.09546 17.1995C6.27281 17.8293 5.59296 15.7994 5.59296 15.7994C5.11101 14.5742 4.42261 14.2457 4.42261 14.2457C3.51453 13.6438 4.4814 13.657 4.4814 13.657C5.4807 13.7285 6.02836 14.6738 6.02836 14.6738C6.918 16.2058 8.36435 15.7791 8.99311 15.5094C9.123 14.8396 9.41415 14.3803 9.74014 14.1229C7.15111 13.8633 4.43918 12.9344 4.43918 9.06744C4.43918 8.02064 4.85904 7.1397 5.56201 6.41856C5.42655 6.1637 5.06182 5.1579 5.69129 3.77012C5.69129 3.77012 6.59473 3.48732 8.99524 5.18358C9.85351 4.96729 10.7728 4.85705 11.6923 4.8517C12.6118 4.85705 13.5311 4.96729 14.3894 5.18358C16.7899 3.48732 17.6933 3.77012 17.6933 3.77012C18.3227 5.1579 17.958 6.1637 17.8226 6.41856C18.5256 7.1397 18.9454 8.02064 18.9454 9.06744C18.9454 12.9484 16.2284 13.8609 13.6318 14.1187C14.0738 14.4675 14.4728 15.1761 14.4728 16.246C14.4728 17.7549 14.4591 18.9807 14.4591 19.0299C14.4591 19.3224 14.5687 19.6664 15.0746 19.5202C18.3388 18.0786 20.5788 14.7885 20.5788 11C20.5788 6.02944 16.5494 2 11.5788 2H12Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </a>
+                        <a class="social-link" href="#" aria-label="Facebook">
+                            <svg viewBox="0 0 24 24" fill="none" width="20" height="20" xmlns="http://www.w3.org/2000/svg"><path d="M18 2H15C12.2386 2 10 4.23858 10 7V10H7V14H10V22H14V14H17L18 10H14V7C14 6.44772 14.4477 6 15 6H18V2Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </a>
+                        <a class="social-link" href="#" aria-label="Line">
+                            <svg viewBox="0 0 24 24" fill="none" width="20" height="20" xmlns="http://www.w3.org/2000/svg"><path d="M7 22L12.5 18.5H17C19.2091 18.5 21 16.7091 21 14.5V7.5C21 5.29086 19.2091 3.5 17 3.5H7C4.79086 3.5 3 5.29086 3 7.5V14.5C3 16.7091 4.79086 18.5 7 18.5H8.5L7 22Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M8.5 10H15.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M8.5 13H12.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="page-container footer fade-up">
+        <span>© 2026 ธาราญา อุดมญาติ. สงวนลิขสิทธิ์.</span>
+        <button class="top-button" type="button">กลับขึ้นด้านบน</button>
+    </footer>
+
+    <script>
+        const navLinks = document.querySelectorAll('.nav-links a');
+        const sections = document.querySelectorAll('main section, .hero');
+        const topButton = document.querySelector('.top-button');
+        const fadeItems = document.querySelectorAll('.fade-up');
+
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const id = entry.target.id;
+                if (!id) return;
+                const link = document.querySelector(`.nav-links a[href='#${id}']`);
+                if (entry.isIntersecting) {
+                    navLinks.forEach(item => item.classList.remove('active'));
+                    if (link) link.classList.add('active');
+                }
+            });
+        }, { rootMargin: '-30% 0px -55% 0px', threshold: 0.2 });
+
+        sections.forEach(section => {
+            sectionObserver.observe(section);
+        });
+
+        const fadeObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    fadeObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.18 });
+
+        fadeItems.forEach(item => fadeObserver.observe(item));
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', (event) => {
+                event.preventDefault();
+                const target = document.querySelector(link.getAttribute('href'));
+                target?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+
+        topButton.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>
+'''
+with open(r'c:\thara\index.html', 'w', encoding='utf-8') as f:
+    f.write(content)
+print('wrote')
+PY
